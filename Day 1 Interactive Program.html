@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBE for the Energy Transition — Region VI Capacity Building Program</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff !important; }
+      .session-card { break-inside: avoid; box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-emerald-900 via-teal-800 to-slate-900 text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 mb-3">
+            <i class="fa-solid fa-bolt"></i> CHED Region VI Capacity Building
+          </span>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight leading-snug">
+            Outcome-Based Education for the Energy Transition
+          </h1>
+          <p class="text-emerald-100/90 text-sm sm:text-base mt-1">
+            Capacity Building for Region VI Higher Education Institutions
+          </p>
+          <div class="flex flex-wrap items-center gap-4 mt-4 text-xs sm:text-sm text-slate-200">
+            <span class="inline-flex items-center gap-1.5"><i class="fa-regular fa-calendar text-emerald-300"></i> November 24–25, 2026</span>
+            <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-emerald-300"></i> Iloilo City, Philippines</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 no-print">
+          <button onclick="openQrModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold text-sm shadow transition cursor-pointer">
+            <i class="fa-solid fa-qrcode"></i> Venue QR Code
+          </button>
+          <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium text-sm border border-white/20 transition cursor-pointer">
+            <i class="fa-solid fa-print"></i> Print Program
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Controls -->
+  <div class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 no-print">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="flex items-center gap-2" role="tablist">
+        <button id="tab-day1" onclick="switchDay('day1')" class="px-4 py-2 rounded-lg text-sm font-semibold transition bg-emerald-700 text-white shadow-sm cursor-pointer">
+          Day 1 <span class="hidden sm:inline font-normal opacity-90">· Nov 24</span>
+        </button>
+        <button id="tab-day2" onclick="switchDay('day2')" class="px-4 py-2 rounded-lg text-sm font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+          Day 2 <span class="hidden sm:inline font-normal opacity-90">· Nov 25</span>
+        </button>
+        <button id="tab-all" onclick="switchDay('all')" class="px-4 py-2 rounded-lg text-sm font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">
+          Full Schedule
+        </button>
+      </div>
+      <div class="relative w-full sm:w-72">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+        <input id="searchInput" type="text" oninput="renderProgram()" placeholder="Search sessions or materials..." class="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Program Container -->
+  <main id="programContainer" class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 flex-1 space-y-8"></main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-6 mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <p>Outcome-Based Education for the Energy Transition · Region VI Engineering HEIs</p>
+      <p>November 24–25, 2026 · Iloilo City</p>
+    </div>
+  </footer>
+
+  <!-- In-Page Slide Reader Fallback Modal -->
+  <div id="readerModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
+        <div>
+          <h3 id="readerTitle" class="font-bold text-slate-900 text-lg">Presentation Slides</h3>
+          <p id="readerSubtitle" class="text-xs text-slate-500"></p>
+        </div>
+        <button onclick="closeReaderModal()" class="p-2 rounded-lg text-slate-500 hover:bg-slate-200 hover:text-slate-800 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <div id="readerBody" class="p-6 overflow-y-auto space-y-4 bg-slate-100"></div>
+    </div>
+  </div>
+
+  <!-- Venue QR Code Modal -->
+  <div id="qrModal" class="fixed inset-0 z-50 hidden bg-slate-900/75 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 text-center relative">
+      <button onclick="closeQrModal()" class="absolute top-4 right-4 p-2 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 mb-3">
+        <i class="fa-solid fa-qrcode"></i> Participant Access
+      </span>
+      <h3 class="text-xl font-bold text-slate-900">Scan to Open Workshop Program</h3>
+      <p class="text-sm text-slate-600 mt-1">Access the schedule, Pre-Test, slides, workshop templates, and submissions.</p>
+      <div class="my-6 flex justify-center">
+        <div id="qrCodeBox" class="p-4 bg-white border-2 border-slate-200 rounded-xl shadow-inner inline-block"></div>
+      </div>
+      <p id="qrUrlDisplay" class="text-xs text-slate-500 break-all bg-slate-100 rounded-lg px-3 py-2 mb-5 font-mono"></p>
+      <div class="flex justify-center gap-3">
+        <button onclick="downloadQrPng()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-semibold transition cursor-pointer">
+          <i class="fa-solid fa-download"></i> Download QR (PNG)
+        </button>
+        <button onclick="closeQrModal()" class="px-4 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition cursor-pointer">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 no-print">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toastMessage"></span>
+  </div>
+
+  <script>
+    const PRE_TEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeHgllFVq2WpikDdUJekoz-5s7U71bgRyB0qEMPTYUCWcz2eA/viewform";
+    const WORKSHOP1_SUBMIT_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdq5m6c281VxtH7usj2NbTQe3wbGwkBWQ4vgpfsCqU0HdoGWQ/viewform";
+    const POST_TEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfdPVdYu7V95mXpZNzXvjTlHnVLdlvjluDhTCgtihlWWT6f0g/viewform";
+
+    let currentDay = "day1";
+
+    window.showToast = function (msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toastMessage").textContent = msg;
+      toast.classList.remove("hidden");
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => toast.classList.add("hidden"), 3200);
+    };
+
+    const slideDecks = {
+      am: {
+        title: "Day 1 AM Session: OBE Fundamentals, Outcomes Architecture & Constructive Alignment",
+        filename: "01_Day1_AM_Session_OBE_PQF.pdf",
+        slides: [
+          { title: "Outcome-Based Education (OBE) Fundamentals", points: ["Paradigm shift from teacher-centered inputs to learner-centered demonstrated outcomes.", "Focuses on what students can actually do with what they know at the end of a learning experience."] },
+          { title: "Why OBE for the Energy Transition?", points: ["Rapid technological shifts demand adaptable, systems-thinking engineers.", "Ensures curricula produce verifiable graduate competencies aligned with national and global standards."] },
+          { title: "Core Premise 1: All Students Can Learn and Succeed", points: ["Not on the same day or in the same way.", "Instructional design must provide structured pathways to mastery."] },
+          { title: "Core Premise 2: Successful Learning Promotes More Successful Learning", points: ["Early foundational mastery builds confidence and readiness for complex engineering tasks.", "Scaffolding prevents cumulative learning gaps."] },
+          { title: "Core Premise 3: Schools Control the Conditions of Success", points: ["Faculty design the curriculum, learning environment, feedback loops, and assessment evidence.", "Systemic alignment directly drives student achievement."] },
+          { title: "Spady's Four Principles of OBE", points: ["1. Clarity of Focus", "2. Designing Down (Backward Design)", "3. High Expectations", "4. Expanded Opportunities"] },
+          { title: "Principle 1: Clarity of Focus", points: ["Everything teachers do must be clearly focused on what learners should ultimately be able to demonstrate.", "Outcomes are shared transparently with students from Day 1."] },
+          { title: "Principle 2: Designing Down", points: ["Start with the culminating graduate qualification and work backward to courses, modules, and lessons.", "Every course exists to serve the broader program architecture."] },
+          { title: "Principle 3: High Expectations", points: ["Establish challenging, authentic performance standards.", "Move beyond rote recall toward complex problem solving and design."] },
+          { title: "Principle 4: Expanded Opportunities", points: ["Provide multiple ways and structured chances for students to learn and demonstrate mastery.", "Use formative feedback before high-stakes summative demonstrations."] },
+          { title: "Traditional vs. Outcome-Based Education", points: ["Traditional: Time-based, content-coverage driven, norm-referenced.", "OBE: Competency-based, evidence-driven, criterion-referenced."] },
+          { title: "Outcomes Architecture: Overview", points: ["Connects national qualifications to classroom-level tasks.", "Ensures vertical and horizontal coherence across the entire degree program."] },
+          { title: "Dimensions of Outcomes", points: ["Knowledge & Understanding", "Skills & Application", "Responsibility, Ethics & Autonomy"] },
+          { title: "Levels of Outcomes", points: ["Institutional / National Qualification Level (PQF)", "Program Level (PO / PI / PLO)", "Course Level (CO / ILO)"] },
+          { title: "Layers of Engineering Alignment", points: ["PO (Program Outcomes) -> PI (Performance Indicators) -> PLO (Program Learning Outcomes) -> CO (Course Outcomes) -> ILO (Intended Learning Outcomes)."] },
+          { title: "Role of Program Outcomes (POs)", points: ["Broad graduate competencies expected of all engineering graduates at the point of graduation.", "Aligned with Washington Accord and CHED standards."] },
+          { title: "Role of Performance Indicators (PIs)", points: ["Observable, measurable dimensions of competent performance.", "Bridge broad POs to concrete assessment criteria."] },
+          { title: "Role of Program Learning Outcomes (PLOs)", points: ["Discipline-specific expressions of engineering competencies.", "Contextualize broad outcomes to Civil, Electrical, Mechanical, or Energy Engineering."] },
+          { title: "Role of Course Outcomes (COs) & ILOs", points: ["COs define what a student can demonstrate upon completing a course.", "ILOs specify unit- or module-level performances that build toward COs."] },
+          { title: "Constructive Alignment (John Biggs)", points: ["Two pillars: 'Constructive' (students construct meaning through active learning) and 'Alignment' (outcomes, activities, and assessments match)."] },
+          { title: "The Alignment Triangle", points: ["Intended Learning Outcomes (ILOs) <-> Teaching & Learning Activities (TLAs) <-> Assessment Tasks (ATs).", "A mismatch in any corner breaks validity."] },
+          { title: "Action Verbs and Cognitive Complexity", points: ["Verbs signal the required performance level (e.g., analyze, design, evaluate, justify).", "Context, constraints, and uncertainty determine true complexity."] },
+          { title: "Designing Aligned TLAs", points: ["Learning activities must let students practice the exact performance required in the outcome.", "If the outcome is 'design,' lectures alone are insufficient."] },
+          { title: "Designing Valid Assessment Evidence", points: ["Assessment generates evidence of outcome attainment, not merely grades.", "Authentic tasks (design projects, labs, case analyses) provide strongest evidence."] },
+          { title: "Common Pitfalls in OBE Implementation", points: ["Treating OBE as paperwork rather than instructional design.", "Testing recall (MCQ) when the stated outcome requires design or evaluation."] },
+          { title: "AM Session Synthesis", points: ["Begin with the end in mind.", "Align every learning experience and assessment to observable, authentic engineering evidence."] }
+        ]
+      },
+      pm: {
+        title: "Day 1 PM Session: PQF & Engineering Graduate Attributes / Outcomes Alignment",
+        filename: "02_Day1_PM_Session_PQF_Attributes.pdf",
+        slides: [
+          { title: "What is the Philippine Qualifications Framework (PQF)?", points: ["A quality-assured national system for the development, recognition, and award of qualifications.", "Based on standards of knowledge, skills, and values acquired by learners and workers."] },
+          { title: "PQF and OBE Relationship", points: ["PQF defines the intended qualification.", "OBE designs the educational system that develops it and provides evidence that it has been attained."] },
+          { title: "The 8 PQF Levels", points: ["Levels 1–5: Basic Education & Technical-Vocational (NC I–IV, Diploma).", "Level 6: Baccalaureate Degree (Engineering).", "Levels 7–8: Post-Baccalaureate & Doctoral."] },
+          { title: "Bachelor's Degree in Engineering = PQF Level 6", points: ["Three core domains:", "1. Knowledge & Understanding", "2. Skills & Application", "3. Responsibility & Autonomy"] },
+          { title: "Domain 1: Knowledge & Understanding", points: ["Mathematics, natural sciences, engineering fundamentals, and specialized disciplinary knowledge.", "Integration of theories, principles, methods, and standards for complex engineering problems."] },
+          { title: "Domain 2: Skills & Application", points: ["Analyze complex problems, conduct investigations, and design solutions.", "Model, simulate, use modern engineering tools, interpret evidence, and communicate decisions."] },
+          { title: "Domain 3: Responsibility & Autonomy", points: ["Exercise engineering judgment and make informed decisions.", "Assume accountability for safety, ethics, sustainability, public welfare, teamwork, and lifelong learning."] },
+          { title: "Level 6 Synthesis", points: ["Level 6 is not simply about knowing more.", "It is about using integrated knowledge to address complex problems with increasing independence, judgment, and responsibility."] },
+          { title: "What Makes BS Engineering Performance 'Level 6'?", points: ["Complexity: Non-routine, non-algorithmic problems.", "Integration: Drawing from multiple bodies of knowledge.", "Independence: Determining appropriate approaches.", "Responsibility: Accounting for safety, society, environment, and ethics."] },
+          { title: "11 Engineering Program Outcomes (Washington Accord)", points: ["PO1 Engineering Knowledge | PO2 Problem Analysis | PO3 Design/Development of Solutions | PO4 Investigation | PO5 Engineering Tool Usage | PO6 The Engineer and the World", "PO7 Ethics | PO8 Individual & Collaborative Teamwork | PO9 Communication | PO10 Project Management & Finance | PO11 Lifelong Learning"] },
+          { title: "Aligning the 11 POs to PQF Level 6 Domains", points: ["Knowledge Foundation: PO1 -> Knowledge & Understanding.", "Professional Performance: PO2, PO3, PO4, PO5, PO9 -> Skills & Application.", "Responsible Practice: PO6, PO7, PO8, PO10, PO11 -> Responsibility & Autonomy."] },
+          { title: "Connecting National Standards to Your Course", points: ["PQF (National Standards) <-> Washington Accord (11 POs) <-> CHED (PO / PI / PLO).", "Key Question: What meaningful contribution does my course make to the capabilities expected of an Engineering graduate?"] },
+          { title: "Course Contribution Levels (I / E / D)", points: ["I — Introductory: Establishes the foundations of the capability.", "E — Enabling: Develops, applies, and strengthens the capability.", "D — Demonstrative: Provides culminating evidence through integrated performance."] }
+        ]
+      },
+      w1: {
+        title: "Workshop 1: Mapping Courses to Graduate Capabilities",
+        filename: "03_Day1_Workshop1_Course_Mapping.pdf",
+        slides: [
+          { title: "Workshop No. 1: Where Does My Course Contribute and How?", points: ["Mapping Courses to Graduate Capabilities", "CHED OBE Capacity-Building for Region VI Engineering HEIs · Day 1"] },
+          { title: "Objective & Sample PLOs", points: ["Objective: Determine how selected Engineering courses progressively contribute to sample PLOs.", "PLO 1: Problem Analysis — Analyze complex engineering problems to develop substantiated conclusions.", "PLO 2: Engineering Design — Develop and justify solutions meeting requirements and constraints.", "PLO 3: Engineering Tools & Technology — Select/apply modern tools and evaluate output limitations."] },
+          { title: "Instructions: Steps 1 to 3", points: ["1. Form your group (same or closely related Engineering program).", "2. Select three courses: one early/foundational, one intermediate/professional, and one advanced/capstone.", "3. Align each course to PLO 1, PLO 2, and/or PLO 3. Do not force alignment—use [ — ] if not substantial."] },
+          { title: "Step 4: Classify the Contribution (I / E / D / —)", points: ["I (Introductory): Builds the foundations needed for this capability.", "E (Enabling): Develops, applies, and strengthens this capability.", "D (Demonstrative): Enables students to demonstrate the capability through integrated performance.", "— (No substantial contribution): Connection is too incidental."] },
+          { title: "Step 5: Complete the Course–PLO Map", points: ["Map Course 1, Course 2, and Course 3 across PLO 1 (Problem Analysis), PLO 2 (Engineering Design), and PLO 3 (Tools & Technology).", "Indicate I / E / D / — for each cell."] },
+          { title: "Step 6: Check the Progression", points: ["1. Can you see an I -> E -> D progression for each PLO?", "2. Are there developmental gaps (e.g., jumping I -> D without E)?", "3. Are there demonstration gaps (several E's, no convincing D)?", "4. For every D, what do students actually produce or perform?"] },
+          { title: "Workshop Output (for Presentation)", points: ["1. Three (3) Selected Courses (Title, Units, Lec/Lab, Course Description).", "2. Completed I-E-D Alignment Matrix (Course–PLO Map).", "3. Group's Curriculum Insight."] },
+          { title: "Preview of Day 2: Design, Align, Assess & Improve", points: ["AM Session: W2A (Anatomy of Course Description) & W2B (Building CO to ILO).", "PM Session: Workshop 3 (Completing CO-ILO-TLA-Assessment Alignment) & Output Presentations."] },
+          { title: "Thank You!", points: ["Proceed to your group tables, download the Workshop 1 Template (.doc), and upload your completed output using the Submit button."] }
+        ]
+      }
+    };
+
+    const scheduleData = {
+      day1: {
+        label: "Day 1 · Tuesday, November 24, 2026",
+        theme: "Understand and Align: OBE Foundations, PQF Level 6 & Curriculum Mapping",
+        sessions: [
+          {
+            time: "8:00 – 8:30",
+            location: "Registration Desk / Foyer",
+            title: "Registration and Pre-Workshop Check",
+            tag: "Check-In",
+            tagColor: "bg-indigo-50 text-indigo-700 border-indigo-200",
+            icon: "fa-clipboard-check",
+            iconBg: "bg-indigo-50 text-indigo-600",
+            preTest: true
+          },
+          {
+            time: "8:30 – 9:00",
+            location: "Plenary Hall",
+            title: "Opening Program & Workshop Orientation",
+            tag: "Opening",
+            tagColor: "bg-slate-100 text-slate-700 border-slate-200",
+            icon: "fa-flag",
+            iconBg: "bg-slate-100 text-slate-600"
+          },
+          {
+            time: "9:00 – 12:00",
+            location: "Plenary Hall",
+            title: "AM Session: OBE Fundamentals, Outcomes Architecture & Constructive Alignment",
+            bullets: [
+              "OBE Fundamentals (Paradigm, Premises, and Principles)",
+              "Outcomes Architecture (Dimensions, Levels and Layers)",
+              "Constructive Alignment in OBE"
+            ],
+            breakNote: "Includes Health Break (10:00 – 10:15)",
+            tag: "Plenary Session",
+            tagColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+            icon: "fa-chalkboard-user",
+            iconBg: "bg-emerald-50 text-emerald-600",
+            deckKey: "am",
+            slideCount: 26
+          },
+          {
+            time: "12:00 – 1:00",
+            location: "Dining Area",
+            title: "Lunch Break",
+            tag: "Break",
+            tagColor: "bg-amber-50 text-amber-800 border-amber-200",
+            icon: "fa-utensils",
+            iconBg: "bg-amber-50 text-amber-600",
+            isBreak: true
+          },
+          {
+            time: "1:00 – 3:00",
+            location: "Plenary Hall",
+            title: "PM Session: PQF & Engineering Graduate Attributes / Outcomes Alignment",
+            bullets: [
+              "Philippine Qualifications Framework (PQF) Level 6 Domains",
+              "11 Washington Accord Engineering Program Outcomes",
+              "Course Contribution Levels (Introductory, Enabling, Demonstrative)"
+            ],
+            tag: "Plenary Session",
+            tagColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+            icon: "fa-layer-group",
+            iconBg: "bg-emerald-50 text-emerald-600",
+            deckKey: "pm",
+            slideCount: 13
+          },
+          {
+            time: "3:00 – 4:45",
+            location: "Plenary / Group Tables",
+            title: "Workshop 1: Positioning My Course in the Engineering Curriculum",
+            bullets: [
+              "Mapping Courses to Graduate Capabilities (I / E / D Matrix)",
+              "Checking Curriculum Progression & Identifying Gaps"
+            ],
+            tag: "Hands-On Workshop",
+            tagColor: "bg-blue-50 text-blue-700 border-blue-200",
+            icon: "fa-diagram-project",
+            iconBg: "bg-blue-50 text-blue-600",
+            deckKey: "w1",
+            slideCount: 9,
+            hasTemplate: true,
+            submitUrl: WORKSHOP1_SUBMIT_URL
+          },
+          {
+            time: "4:45 – 5:00",
+            location: "Plenary Hall",
+            title: "Day 1 Synthesis & Reminders for Day 2",
+            tag: "Wrap-Up",
+            tagColor: "bg-slate-100 text-slate-700 border-slate-200",
+            icon: "fa-comments",
+            iconBg: "bg-slate-100 text-slate-600"
+          }
+        ]
+      },
+      day2: {
+        label: "Day 2 · Wednesday, November 25, 2026",
+        theme: "Design, Align, Assess & Improve: From Course Purpose to Valid Evidence",
+        sessions: [
+          {
+            time: "8:30 – 9:00",
+            location: "Plenary Hall",
+            title: "Day 1 Recap & Day 2 Workshop Briefing",
+            tag: "Orientation",
+            tagColor: "bg-slate-100 text-slate-700 border-slate-200",
+            icon: "fa-rotate-left",
+            iconBg: "bg-slate-100 text-slate-600"
+          },
+          {
+            time: "9:00 – 12:00",
+            location: "Plenary / Group Tables",
+            title: "AM Session: Workshops (Outcome-Based Syllabus)",
+            bullets: [
+              "Workshop 2A: The Anatomy of Course Description",
+              "Workshop 2B: Building Course Outcomes (CO) to Intended Learning Outcomes (ILO)"
+            ],
+            breakNote: "Includes Health Break (10:00 – 10:15)",
+            tag: "Hands-On Workshop",
+            tagColor: "bg-blue-50 text-blue-700 border-blue-200",
+            icon: "fa-pen-ruler",
+            iconBg: "bg-blue-50 text-blue-600"
+          },
+          {
+            time: "12:00 – 1:00",
+            location: "Dining Area",
+            title: "Lunch Break",
+            tag: "Break",
+            tagColor: "bg-amber-50 text-amber-800 border-amber-200",
+            icon: "fa-utensils",
+            iconBg: "bg-amber-50 text-amber-600",
+            isBreak: true
+          },
+          {
+            time: "1:00 – 3:15",
+            location: "Plenary / Group Tables",
+            title: "PM Session: Workshop 3 & Presentation of Outputs",
+            bullets: [
+              "Workshop 3: Completing the Alignment (CO–ILO–TLA–Assessment)",
+              "Presentation of Workshop Outputs (Review and Feedback)"
+            ],
+            tag: "Workshop & Review",
+            tagColor: "bg-blue-50 text-blue-700 border-blue-200",
+            icon: "fa-list-check",
+            iconBg: "bg-blue-50 text-blue-600"
+          },
+          {
+            time: "3:15 – 4:30",
+            location: "Plenary Hall",
+            title: "Post-Test, Synthesis & Closing Program",
+            tag: "Assessment & Closing",
+            tagColor: "bg-purple-50 text-purple-700 border-purple-200",
+            icon: "fa-award",
+            iconBg: "bg-purple-50 text-purple-600",
+            postTest: true
+          }
+        ]
+      }
+    };
+
+    function switchDay(day) {
+      currentDay = day;
+      ["day1", "day2", "all"].forEach(id => {
+        const btn = document.getElementById("tab-" + id);
+        if (id === day) {
+          btn.className = "px-4 py-2 rounded-lg text-sm font-semibold transition bg-emerald-700 text-white shadow-sm cursor-pointer";
+        } else {
+          btn.className = "px-4 py-2 rounded-lg text-sm font-semibold transition bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer";
+        }
+      });
+      renderProgram();
+    }
+
+    function renderSessionCard(s) {
+      const cardBg = s.isBreak ? "bg-amber-50/70 border-amber-200" : "bg-white border-slate-200";
+
+      let bulletsHtml = "";
+      if (s.bullets && s.bullets.length) {
+        bulletsHtml = `<ul class="mt-2.5 space-y-1 text-sm text-slate-600">${s.bullets.map(b => `<li class="flex items-start gap-2"><span class="text-emerald-600 font-bold">•</span><span>${b}</span></li>`).join("")}</ul>`;
+      }
+
+      let breakBadge = s.breakNote
+        ? `<div class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium"><i class="fa-solid fa-mug-hot"></i> ${s.breakNote}</div>`
+        : "";
+
+      let actionsHtml = "";
+
+      if (s.preTest) {
+        actionsHtml = `
+          <div class="mt-4 pt-4 border-t border-slate-100">
+            <a href="${PRE_TEST_URL}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-sm transition">
+              <i class="fa-brands fa-google"></i>
+              <span>Diagnostic Pre-Test: OBE &amp; PQF Capacity Building</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+            </a>
+            <p class="mt-2 text-xs text-slate-500 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info text-indigo-500"></i>
+              <span><strong>Important:</strong> This diagnostic pre-test may only be taken <strong>one (1) time</strong>. Opens in a new tab.</span>
+            </p>
+          </div>`;
+      }
+
+      if (s.postTest) {
+        actionsHtml = `
+          <div class="mt-4 pt-4 border-t border-slate-100">
+            <a href="${POST_TEST_URL}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-sm shadow-sm transition">
+              <i class="fa-brands fa-google"></i>
+              <span>Post-Test: OBE &amp; PQF Capacity Building</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-80"></i>
+            </a>
+            <p class="mt-2 text-xs text-slate-500 flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info text-purple-500"></i>
+              <span>Up to <strong>three (3) attempts</strong> allowed · Correct answers are shown after submission.</span>
+            </p>
+          </div>`;
+      }
+
+      if (s.deckKey) {
+        const templateBtn = s.hasTemplate
+          ? `<button onclick="downloadWorkshop1Template()" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition cursor-pointer">
+               <i class="fa-solid fa-file-word"></i> Download Template (.doc)
+             </button>`
+          : "";
+
+        const submitBtn = s.submitUrl
+          ? `<a href="${s.submitUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition">
+               <i class="fa-solid fa-cloud-arrow-up"></i> Submit Workshop 1 Output
+               <i class="fa-solid fa-arrow-up-right-from-square text-[11px] opacity-80"></i>
+             </a>`
+          : "";
+
+        actionsHtml += `
+          <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2.5 no-print">
+            <button onclick="openPdfViewer('${s.deckKey}')" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-semibold shadow-sm transition cursor-pointer">
+              <i class="fa-solid fa-file-pdf"></i> View Presentation (PDF)
+              <span class="px-1.5 py-0.5 rounded bg-emerald-900/40 text-[11px] font-normal">${s.slideCount} Slides</span>
+            </button>
+            <button onclick="downloadPdfDeck('${s.deckKey}')" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-semibold shadow-sm transition cursor-pointer">
+              <i class="fa-solid fa-cloud-arrow-down"></i> Download PDF
+            </button>
+            ${templateBtn}
+            ${submitBtn}
+          </div>`;
+      }
+
+      return `
+        <div class="session-card ${cardBg} border rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-md transition">
+          <div class="flex flex-col md:flex-row md:items-start gap-4">
+            <div class="flex items-center gap-3 md:w-48 shrink-0">
+              <div class="w-11 h-11 rounded-xl ${s.iconBg} flex items-center justify-center shrink-0">
+                <i class="fa-solid ${s.icon} text-lg"></i>
+              </div>
+              <div>
+                <div class="font-bold text-slate-900 text-sm sm:text-base">${s.time}</div>
+                <div class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                  <i class="fa-solid fa-location-dot text-[10px]"></i> ${s.location}
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">${s.title}</h3>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${s.tagColor} shrink-0">
+                  <span class="w-1.5 h-1.5 rounded-full bg-current"></span> ${s.tag}
+                </span>
+              </div>
+              ${bulletsHtml}
+              ${breakBadge}
+              ${actionsHtml}
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function renderProgram() {
+      const container = document.getElementById("programContainer");
+      const query = (document.getElementById("searchInput").value || "").trim().toLowerCase();
+      const daysToShow = currentDay === "all" ? ["day1", "day2"] : [currentDay];
+
+      let html = "";
+      daysToShow.forEach(dayKey => {
+        const day = scheduleData[dayKey];
+        const filtered = day.sessions.filter(s => {
+          if (!query) return true;
+          const haystack = [s.title, s.time, s.location, s.tag, ...(s.bullets || [])].join(" ").toLowerCase();
+          return haystack.includes(query);
+        });
+
+        if (filtered.length === 0) return;
+
+        html += `
+          <section>
+            <div class="mb-4">
+              <h2 class="text-xl font-bold text-slate-900">${day.label}</h2>
+              <p class="text-sm text-slate-500">${day.theme}</p>
+            </div>
+            <div class="space-y-4">
+              ${filtered.map(renderSessionCard).join("")}
+            </div>
+          </section>`;
+      });
+
+      container.innerHTML = html || `
+        <div class="text-center py-16 bg-white rounded-2xl border border-slate-200">
+          <i class="fa-solid fa-magnifying-glass text-3xl text-slate-300 mb-3"></i>
+          <p class="text-slate-600 font-medium">No sessions matched "${query}".</p>
+        </div>`;
+    }
+
+    window.openPdfViewer = function (deckKey) {
+      const deck = slideDecks[deckKey];
+      if (!deck) return;
+
+      const slidesMarkup = deck.slides.map((sl, i) => `
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px;margin-bottom:16px;page-break-inside:avoid;">
+          <div style="font-size:12px;font-weight:700;color:#047857;margin-bottom:6px;">SLIDE ${i + 1} OF ${deck.slides.length}</div>
+          <h2 style="margin:0 0 12px 0;font-size:20px;color:#0f172a;">${sl.title}</h2>
+          <ul style="margin:0;padding-left:20px;color:#334155;line-height:1.6;">
+            ${sl.points.map(p => `<li style="margin-bottom:6px;">${p}</li>`).join("")}
+          </ul>
+        </div>`).join("");
+
+      const win = window.open("", "_blank");
+      if (win) {
+        win.document.write(`<!DOCTYPE html><html><head><title>${deck.title}</title></head><body style="font-family:system-ui,-apple-system,sans-serif;background:#f1f5f9;margin:0;padding:24px;">
+          <div style="max-width:860px;margin:0 auto;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+              <div>
+                <h1 style="margin:0;font-size:22px;color:#0f172a;">${deck.title}</h1>
+                <p style="margin:4px 0 0;font-size:13px;color:#64748b;">${deck.slides.length} Slides · Region VI OBE Capacity Building</p>
+              </div>
+              <button onclick="window.print()" style="background:#047857;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-weight:600;cursor:pointer;">Print / Save as PDF</button>
+            </div>
+            ${slidesMarkup}
+          </div>
+        </body></html>`);
+        win.document.close();
+      } else {
+        document.getElementById("readerTitle").textContent = deck.title;
+        document.getElementById("readerSubtitle").textContent = `${deck.slides.length} Slides · In-page viewer`;
+        document.getElementById("readerBody").innerHTML = slidesMarkup;
+        document.getElementById("readerModal").classList.remove("hidden");
+      }
+    };
+
+    window.closeReaderModal = function () {
+      document.getElementById("readerModal").classList.add("hidden");
+    };
+
+    window.downloadPdfDeck = function (deckKey) {
+      const deck = slideDecks[deckKey];
+      if (!deck) return;
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+        const pageW = doc.internal.pageSize.getWidth();
+        const margin = 48;
+
+        deck.slides.forEach((sl, idx) => {
+          if (idx > 0) doc.addPage();
+          doc.setFillColor(6, 78, 59);
+          doc.rect(0, 0, pageW, 56, "F");
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(11);
+          doc.text(deck.title, margin, 34);
+          doc.text(`Slide ${idx + 1} / ${deck.slides.length}`, pageW - margin - 75, 34);
+
+          doc.setTextColor(15, 23, 42);
+          doc.setFontSize(22);
+          const titleLines = doc.splitTextToSize(sl.title, pageW - margin * 2);
+          doc.text(titleLines, margin, 105);
+
+          doc.setFontSize(13);
+          doc.setTextColor(51, 65, 85);
+          let y = 105 + titleLines.length * 26 + 16;
+          sl.points.forEach(pt => {
+            const lines = doc.splitTextToSize("•  " + pt, pageW - margin * 2);
+            doc.text(lines, margin, y);
+            y += lines.length * 20 + 10;
+          });
+        });
+
+        doc.save(deck.filename);
+        showToast(`Downloaded ${deck.filename}`);
+      } catch (err) {
+        showToast("Unable to generate PDF in this browser.");
+      }
+    };
+
+    window.downloadWorkshop1Template = function () {
+      const docContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+        <head><meta charset="utf-8"><title>Workshop 1 Template</title>
+        <style>
+          body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #111; }
+          h1 { font-size: 15pt; color: #064e3b; margin-bottom: 4pt; }
+          h2 { font-size: 12pt; color: #0f172a; margin-top: 14pt; margin-bottom: 6pt; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 12pt; }
+          th, td { border: 1px solid #334155; padding: 6pt; text-align: left; vertical-align: top; }
+          th { background-color: #e2e8f0; }
+        </style></head>
+        <body>
+          <h1>WORKSHOP No. 1: Mapping Courses to Graduate Capabilities</h1>
+          <p><strong>CHED OBE Capacity-Building for Region VI Engineering HEIs · Day 1: Understand and Align</strong></p>
+          <table>
+            <tr><th width="25%">Group No. / Name</th><td></td></tr>
+            <tr><th>Engineering Program</th><td></td></tr>
+            <tr><th>Institution(s)</th><td></td></tr>
+            <tr><th>Members</th><td></td></tr>
+          </table>
+          <h2>Part A. Selected Courses: Short Course Details</h2>
+          <table>
+            <tr><th>Stage</th><th>Course Code &amp; Title</th><th>Units</th><th>Lec / Lab</th><th>Course Description</th></tr>
+            <tr><td>Course 1 (Early / Foundational)</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Course 2 (Intermediate / Professional)</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Course 3 (Advanced / Capstone)</td><td></td><td></td><td></td><td></td></tr>
+          </table>
+          <h2>Part B. I-E-D Alignment Matrix (Indicate: I / E / D / —)</h2>
+          <table>
+            <tr><th>Engineering Course</th><th>PLO 1: Problem Analysis</th><th>PLO 2: Engineering Design</th><th>PLO 3: Tools &amp; Technology</th></tr>
+            <tr><td>Course 1:</td><td></td><td></td><td></td></tr>
+            <tr><td>Course 2:</td><td></td><td></td><td></td></tr>
+            <tr><td>Course 3:</td><td></td><td></td><td></td></tr>
+          </table>
+          <p><strong>Evidence for every D (Student product / performance):</strong></p>
+          <table>
+            <tr><th>Course</th><th>PLO marked D</th><th>Student Product / Performance (Evidence)</th></tr>
+            <tr><td>&nbsp;</td><td></td><td></td></tr>
+            <tr><td>&nbsp;</td><td></td><td></td></tr>
+          </table>
+          <h2>Part C. Check the Progression</h2>
+          <p>1. Can you see an I &rarr; E &rarr; D progression for each PLO?<br/><br/></p>
+          <p>2. Are there developmental gaps (e.g., I &rarr; D without adequate E)?<br/><br/></p>
+          <p>3. Are there demonstration gaps (several E's, no convincing D)?<br/><br/></p>
+          <p>4. For every D, what do students actually produce or perform?<br/><br/></p>
+          <h2>Part D. Our Group's Curriculum Insight</h2>
+          <p>Summarize what your map reveals about how your curriculum develops these graduate capabilities, and any changes you would recommend:<br/><br/><br/></p>
+        </body></html>`;
+
+      const blob = new Blob(["\ufeff", docContent], { type: "application/msword" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "03b_Day1_Workshop1_TEMPLATE.doc";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Downloaded 03b_Day1_Workshop1_TEMPLATE.doc");
+    };
+
+    window.openQrModal = function () {
+      const box = document.getElementById("qrCodeBox");
+      const currentUrl = window.location.href;
+      box.innerHTML = "";
+      new QRCode(box, {
+        text: currentUrl,
+        width: 220,
+        height: 220,
+        colorDark: "#0f172a",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      document.getElementById("qrUrlDisplay").textContent = currentUrl;
+      document.getElementById("qrModal").classList.remove("hidden");
+    };
+
+    window.closeQrModal = function () {
+      document.getElementById("qrModal").classList.add("hidden");
+    };
+
+    window.downloadQrPng = function () {
+      const canvas = document.querySelector("#qrCodeBox canvas");
+      const img = document.querySelector("#qrCodeBox img");
+      const dataUrl = canvas ? canvas.toDataURL("image/png") : (img ? img.src : null);
+      if (!dataUrl) return;
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = "CHED_RegionVI_OBE_Program_QR.png";
+      a.click();
+      showToast("QR Code PNG downloaded");
+    };
+
+    renderProgram();
+  </script>
+</body>
+</html>
