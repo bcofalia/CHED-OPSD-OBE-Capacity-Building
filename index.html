@@ -557,7 +557,7 @@
           </div>`;
       }
 
-      // Day 2 Workshop 2A Fillable Word (.doc) Templates & Submission Button
+      // Day 2 Workshop Part 1 & Workshop 2A Fillable Word (.doc) Templates & Submission Button
       if (s.hasWorkshop2ATemplates) {
         const w2aSubmitBtn = s.workshop2ASubmitUrl
           ? `<a href="${s.workshop2ASubmitUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition">
@@ -577,6 +577,9 @@
             </div>
             <div class="flex flex-wrap items-center gap-2 text-xs">
               <span class="text-slate-500 font-medium">Or download by part:</span>
+              <button onclick="downloadWorkshopPart1Template()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 border border-slate-200 font-medium transition cursor-pointer">
+                <i class="fa-solid fa-file-arrow-down text-blue-600"></i> Part 1: Articulation of Outcomes (.doc)
+              </button>
               <button onclick="downloadWorkshop2ATemplate('part21')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 border border-slate-200 font-medium transition cursor-pointer">
                 <i class="fa-solid fa-file-arrow-down text-blue-600"></i> Part 2.1: Diagnose (.doc)
               </button>
@@ -819,6 +822,164 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       showToast("Downloaded 03b_Day1_Workshop1_TEMPLATE.doc");
+    };
+
+    // ==========================================
+    // DAY 2: WORKSHOP (PART 1) FILLABLE WORD (.doc) TEMPLATE
+    // ==========================================
+    window.downloadWorkshopPart1Template = function () {
+      const filename = "Workshop_Part1_Articulation_of_Outcomes_TEMPLATE.doc";
+      const docContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:w="urn:schemas-microsoft-com:office:word"
+              xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+          <meta charset="utf-8" />
+          <title>Workshop (Part 1) — Articulation of Outcomes</title>
+          <style>
+            @page Section1 {
+              size: 11.69in 8.27in;
+              mso-page-orientation: landscape;
+              margin: 0.55in;
+            }
+            div.Section1 {
+              page: Section1;
+              font-family: Calibri, Arial, sans-serif;
+              font-size: 10.5pt;
+              color: #000000;
+            }
+            h1 {
+              font-size: 18pt;
+              color: #064e3b;
+              margin: 0 0 6pt 0;
+            }
+            ul {
+              margin: 4pt 0 10pt 18pt;
+              padding: 0;
+            }
+            li {
+              margin-bottom: 3pt;
+            }
+            .meta-table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 12pt;
+            }
+            .meta-table th, .meta-table td {
+              border: 1px solid #334155;
+              padding: 5pt 7pt;
+              text-align: left;
+              font-size: 10pt;
+            }
+            .meta-table th {
+              background-color: #e2e8f0;
+              width: 18%;
+            }
+            .matrix-table {
+              width: 100%;
+              border-collapse: collapse;
+              table-layout: fixed;
+            }
+            .matrix-table th, .matrix-table td {
+              border: 1px solid #000000;
+              padding: 6pt;
+              vertical-align: middle;
+              word-wrap: break-word;
+            }
+            .row-cell {
+              height: 92pt;
+              vertical-align: top;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="Section1">
+            <h1>WORKSHOP (Part 1)</h1>
+            <ul>
+              <li>Choose a course where you want to apply the Articulation of Outcomes</li>
+              <li>State at least 3 Course Outcomes using the S.M.A.R.T Rules of Thumb</li>
+              <li>Output Format:</li>
+            </ul>
+
+            <table class="meta-table">
+              <tr>
+                <th>Course Code &amp; Title</th>
+                <td width="32%">&nbsp;</td>
+                <th>Degree Program</th>
+                <td width="32%">&nbsp;</td>
+              </tr>
+              <tr>
+                <th>Faculty / Group Name</th>
+                <td>&nbsp;</td>
+                <th>HEI / Institution</th>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th rowspan="3" style="width:7%; text-align:center; vertical-align:bottom;">Levels of<br />Outcomes</th>
+                  <th rowspan="3" style="width:24%; text-align:center; font-weight:normal;">
+                    <strong>Course Outcomes:</strong> At the end of the course, students are expected to...
+                  </th>
+                  <th colspan="3" style="text-align:center; background-color:#ecfdf5;">Intended Learning Outcomes</th>
+                  <th style="width:16%;"></th>
+                </tr>
+                <tr>
+                  <th style="width:17.5%; text-align:center;">Content Mastery<br />(Foundational)</th>
+                  <th style="width:17.5%; text-align:center;">Competency Building<br />(Mediating)</th>
+                  <th style="width:17.5%; text-align:center;">Contextual Applications<br />(Ultimate)</th>
+                  <th></th>
+                </tr>
+                <tr>
+                  <th style="text-align:center; font-weight:normal;">ILO1 (I)</th>
+                  <th style="text-align:center; font-weight:normal;">ILO2 (E)</th>
+                  <th style="text-align:center; font-weight:normal;">ILO3 (D)</th>
+                  <th style="text-align:center; font-weight:normal;">Tangible Output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center; font-weight:bold;">I</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center; font-weight:bold;">E</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center; font-weight:bold;">D</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                  <td class="row-cell">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </body>
+        </html>`;
+
+      const blob = new Blob(["\ufeff", docContent], { type: "application/msword" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Downloaded " + filename);
     };
 
     // ==========================================
