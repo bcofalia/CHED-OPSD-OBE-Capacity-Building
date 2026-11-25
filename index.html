@@ -143,13 +143,14 @@
     // ==========================================
     const PRE_TEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeHgllFVq2WpikDdUJekoz-5s7U71bgRyB0qEMPTYUCWcz2eA/viewform";
     const WORKSHOP1_SUBMIT_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdq5m6c281VxtH7usj2NbTQe3wbGwkBWQ4vgpfsCqU0HdoGWQ/viewform";
+    const WORKSHOP2A_SUBMIT_URL = "https://forms.gle/Z7FqPsRs26ZyPtiS7";
     const POST_TEST_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfdPVdYu7V95mXpZNzXvjTlHnVLdlvjluDhTCgtihlWWT6f0g/viewform";
 
-    // Default to Day 2 since today is Nov 25, 2026
+    // Default to Day 2 (Nov 25, 2026)
     let currentDay = "day2";
 
     // ==========================================
-    // UI UTILITIES (TOAST & CLIPBOARD)
+    // UTILITY FUNCTIONS
     // ==========================================
     window.showToast = function (msg) {
       const toast = document.getElementById("toast");
@@ -163,8 +164,6 @@
       try {
         const ta = document.createElement("textarea");
         ta.value = email;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
         document.body.appendChild(ta);
         ta.select();
         document.execCommand("copy");
@@ -176,7 +175,7 @@
     };
 
     // ==========================================
-    // SLIDE DECKS (DAY 1)
+    // PRESENTATION SLIDE DECKS (DAY 1 & DAY 2)
     // ==========================================
     const slideDecks = {
       am: {
@@ -246,65 +245,65 @@
         ]
       },
       day2_am: {
-        title: "Day 2 Presentation: OBE & PQF — Outcome-Based Syllabus & Course Design",
-        filename: "04_Day2_Presentation_OBE_Syllabus_Design.pdf",
+        title: "Day 2 Presentation: OBE & PQF — Outcome-Based Syllabus, Outcomes Articulation & Course Description",
+        filename: "04_Day2_OBE_PQF_Presentation.pdf",
         slides: [
-          { title: "OBE and PQF: Two Frameworks, One Goal (Day 2)", points: ["Outcome-Based Education Capacity-Building for Region VI Engineering HEIs.", "Resource Speakers: Jonathan V. Macayan, PhD · Aldrin D. Calderon, PhD · Bernadino C. Ofalia, EdD (Mapúa University) · Nov 24–25, 2026."] },
+          { title: "OBE and PQF: Two Frameworks, One Goal (Day 2)", points: ["Outcome-Based Education Capacity-Building for Region VI Engineering HEIs.", "Resource Speakers: Jonathan V. Macayan, PhD; Aldrin D. Calderon, PhD; Bernadino C. Ofalia, EdD (Mapúa University).", "Dates: 24–25 November 2026."] },
           { title: "Two Frameworks, One Goal", points: ["OBE (Educational Architecture: Design and Implementation) <- PQF (Graduate Qualification: Target Reference).", "Core Question: What knowledge, competencies, values, and capacities should every graduate possess?"] },
-          { title: "Two-Day Training Overview", points: ["Day 1 (Understand & Align): OBE Fundamentals, Outcomes Architecture, Constructive Alignment, PQF & PO-to-CO Alignment, Workshop 1.", "Day 2 (Design, Align, Assess & Improve): Outcome-Based Syllabus Workshops (W2A & W2B), Workshop 3 (CO–ILO–TLA–Assessment), & Output Presentations."] },
+          { title: "Two-Day Training Overview", points: ["Day 1 (Understand & Align): OBE Fundamentals, Outcomes Architecture, Constructive Alignment, PQF & Graduate Attributes, Workshop 1.", "Day 2 (Design, Align, Assess, & Improve): W2A Anatomy of Course Description, W2B Building CO to ILO, Workshop 3 Alignment & Presentations."] },
           { title: "Day 2 Training Outcomes (TOs)", points: ["TO1: Design an outcome-oriented course with clearly articulated Course Outcomes.", "TO2: Align COs, ILOs, TLAs, assessments, and evidence of learning through constructive alignment.", "TO3: Develop and improve an outcome-based syllabus using alignment and assessment evidence."] },
-          { title: "Recap: Fundamentals of OBE & PQF", points: ["Revisiting the core paradigm, premises, principles, and qualification architecture from Day 1 before designing the outcome-based syllabus."] },
-          { title: "Revisiting Outcome-Based Education (Spady, 1994)", points: ["Outcomes transcend knowing and understanding—they refer to what a student can DO after knowing and understanding.", "Multidimensional: Content -> Competence -> Context (Real Life!).", "Premises: All students can learn; successful learning promotes more successful learning; schools control the conditions of success.", "Operating Principles: Clarity of Focus, High Expectation, Expanded Opportunity, Design Down."] },
-          { title: "The Futures (Proximal & Distal) in Curriculum Outcomes", points: ["ILO (At the end of Lesson/Topic) -> CO (At the end of Course/Semester) -> PO (Upon Graduation · PQF Level 6–8) -> PEO (3–5 years after Graduation & Beyond)."] },
-          { title: "Program Outcomes (PO1–PO11 · Washington Accord)", points: ["PO1–PO4 (Knowledge & Problem Solving): Engineering fundamentals, research/analysis, safe & sustainable design, and experimental investigation.", "PO5–PO7 (Tools, Context & Ethics): Modern engineering/IT tools, societal/environmental impact, and professional ethics.", "PO8–PO11 (Collaboration, Management & Growth): Multidisciplinary teamwork, effective communication, project management/finance, and lifelong learning."] },
-          { title: "PO1 Engineering Knowledge & Assessment Imperative", points: ["Apply mathematics, natural science, computing, and engineering fundamentals to solve complex engineering problems.", "Outcomes are meant to be demonstrated—thus they must be ASSESSABLE and directly MEASURABLE.", "Program Outcomes must be contextually relevant and discipline/program-specific."] },
-          { title: "Architecture of Outcomes: PO1 -> PI -> PLO (BS ME)", points: ["PO1: Apply math, science, and engineering fundamentals to complex problems.", "PI 1.1–1.3: Apply math/science; apply discipline fundamentals; integrate knowledge into solutions.", "PLO1 (BS Mechanical Engineering): Analyze and solve complex problems involving mechanical, thermal, energy, and manufacturing systems."] },
-          { title: "Architecture of Outcomes: PO2 -> PI -> PLO (BS ME)", points: ["PO2: Identify, formulate, review literature, and analyze complex problems using first principles.", "PI 2.1–2.3: Formulate problems with constraints; analyze using scientific principles; justify conclusions.", "PLO2 (BS Mechanical Engineering): Analyze complex ME problems with interacting requirements, constraints, and uncertainties."] },
-          { title: "Curriculum-Level vs. Course/Instructional-Level Alignment", points: ["Curriculum-Level: PO (Broad Competencies) -> PI (Observable Dimensions) -> PLO (Discipline-Specific Expression).", "Course/Instructional-Level: CO (At the end of the course...) -> ILO1 (Foundational), ILO2 (Mediating), ILO3 (Culminating)."] },
-          { title: "Outcomes Across the Curriculum at Various Levels", points: ["Vertical cascade connecting PEO -> PQF -> PO -> PI -> PLO -> CO -> ILO1, ILO2, ILO3."] },
-          { title: "Nuts & Bolts of OBE: Course-Level Implementation", points: ["Guided by Clarity of Focus, High Expectation, Expanded Opportunity, and Design-Down.", "Core Cycle: Course Outcomes (Target Competencies) -> ILOs (Foundational, Mediating, Culminating) -> TLAs (Learning Experience) -> Assessment (Evidence of Attainment)."] },
-          { title: "Outcome-Based Course Syllabus Architecture", points: ["PEO -> PO -> Course Outcomes (Target Competencies) -> Teaching & Learning Activities (Learning Experience) -> Assessment (Evidence of Outcomes Attainment)."] },
-          { title: "Outcomes Assessment Logic", points: ["At the end of each lesson: Formative Assessments measure ILO1, ILO2, and ILO3.", "At the end of the course: Summative Assessment measures Course Outcomes (CO).", "Key Rule: All these assessments must have tangible artifacts (Outputs)."] },
-          { title: "How Do We Grade the Outcomes?", points: ["Outcomes are graded via gradable (tangible) Outputs—not abstract intentions.", "Use an Outcome-Based RUBRIC to evaluate Quality of Demonstration and convert it into Quantitative Equivalence (points/scores)."] },
-          { title: "Example: Research Proposal (Introduction)", points: ["CO1: Discuss the phenomenon, problem, and gaps in knowledge for a research investigation.", "ILO1 (Foundational): Determine fundamentals of research -> Objective quiz.", "ILO2 (Mediating): Specify gaps in knowledge -> Literature mapping writing tasks.", "ILO3 (Culminating): State research problem & hypothesis -> Summative Research Proposal Introduction."] },
-          { title: "Articulation of Outcomes", points: ["Standard stem: 'At the end of the Program / Course / Module / Lesson, students are expected to...'"] },
-          { title: "S.M.A.R.T. Rules of Thumb in Articulating Outcomes", points: ["S — Start with a VERB", "M — Make sure that the VERB is Measurable", "A — Always consider the VERB's Attainability", "R — Raise the expectation", "T — Trace the links (Higher to Lower Level Outcomes)"] },
-          { title: "S — Start with a VERB", points: ["Every outcome begins with a clear action verb linking Content, Competence, and Context.", "Example progression: CO1 Discuss... -> CO2 Analyze... -> CO3 Produce..."] },
-          { title: "M — Make Sure the VERB Is Objectively Measurable", points: ["Use observable, measurable verbs: Discuss, Analyze, Produce.", "Avoid non-measurable internal states: Understand, Appreciate, Display, Embrace, Uphold."] },
-          { title: "A — Always Consider the VERB's Attainability", points: ["Evaluate attainability against: the Outcome itself, surrounding Contexts, Opportunities provided, and Support Resources of the program.", "Example: Ensure 'Publish...' is realistic within the course timeframe and institutional support."] },
-          { title: "R — Raise the Expectation (Bloom's Progression)", points: ["Move learners up the cognitive hierarchy: Remember -> Understand -> Apply -> Analyze -> Evaluate -> Create.", "Research Course Example: CO1 Discuss -> CO2 Analyze -> CO3 Produce."] },
-          { title: "T — Trace the Links (Design-Down Alignment)", points: ["Vertical Articulation (Design-Down): Start with CO3 (Demonstrating), then CO2 (Enabling), then CO1 (Introducing).", "Horizontal Articulation: Within each CO, align ILO3 (Ultimate) -> ILO2 (Mediating) -> ILO1 (Foundational)."] },
-          { title: "Summary: S.M.A.R.T. Rules of Thumb", points: ["Start with a VERB · Measurable · Attainable · Raise the expectation · Trace the links."] },
-          { title: "Workshop (Part 1): Articulating Course Outcomes Format", points: ["Choose a course and state at least 3 Course Outcomes (I, E, D) using S.M.A.R.T. rules.", "Map each CO across ILO1 (Content Mastery / Foundational), ILO2 (Competency Building / Mediating), ILO3 (Contextual Applications / Ultimate), and Tangible Output."] },
-          { title: "Sample Outcomes Articulation: Engineering Research", points: ["CO1 (I): Propose a research topic -> Identify types -> Establish gaps -> Defend proposal (Output: Research Proposal Presentation).", "CO2 (E): Conduct experimental project -> Determine elements -> Perform procedures -> Analyze/interpret data (Output: Full Experimental Report).", "CO3 (D): Write & present manuscript -> Distinguish styles -> Compose draft -> Present in colloquium (Output: Completed Manuscript & Presentation)."] },
-          { title: "ABET Student Outcomes (1–7)", points: ["1. Solve complex engineering problems | 2. Apply engineering design with constraints | 3. Communicate effectively | 4. Ethical & professional responsibilities.", "5. Function effectively on a team | 6. Develop/conduct experimentation & analyze data | 7. Acquire & apply new knowledge."] },
-          { title: "Granularization of Outcomes (ABET PO/SO No. 6)", points: ["Breaking ABET SO 6 (Develop/conduct experimentation, analyze/interpret data, draw conclusions) into CO1 (Propose), CO2 (Conduct), CO3 (Write & Present), and their respective ILO1–ILO3 verbs."] },
-          { title: "Granularization & Design-Down Architecture", points: ["Design-Down: Systematically breaking higher-level outcomes (PEOs -> POs) into discrete Course Outcomes (Introductory, Enabling, Demonstrating) and ILOs (Foundational + Mediating + Ultimate) prior to forward implementation."] },
-          { title: "ABET Student Outcomes: Focus on SO 3", points: ["Highlighting ABET SO 3: Communicate effectively with a range of audiences as a basis for course-level granularization."] },
-          { title: "Granularization Framework: Backward Design & Forward Implementation", points: ["Designing Backward (1 -> 2 -> 3): Program Outcome -> Course Outcomes -> Intended Learning Outcomes.", "Implementing Forward (1 -> 2 -> 3): ILOs (Lesson/Module) -> COs (Term/Semester) -> POs (Graduation) -> Life Performance Roles."] },
-          { title: "Example: Communication 101 Granularization", points: ["PO 3: Communicate effectively with a wide range of audiences.", "CO1 (Introductory): Compose... -> Lesson: Reduction of Error Density Index in Writing.", "ILOs: 1. Determine grammatical errors (Foundational) -> 2. Evaluate errors in passages (Mediating) -> 3. Apply rules in writing outputs (Ultimate)."] },
-          { title: "ABET Student Outcomes: Focus on SO 6", points: ["Highlighting ABET SO 6: Develop and conduct appropriate experimentation, analyze and interpret data, and use engineering judgment to draw conclusions."] },
-          { title: "Example: Engineering Research Granularization", points: ["PO 6 -> CO1 (Propose research topic solving real-world engineering problems) -> Lesson: Research Ideation.", "ILOs: 1. Identify major types of research -> 2. Establish research gaps -> 3. Defend a research idea/concept."] },
-          { title: "Complete Granularization Matrix: Research 101", points: ["Full alignment table mapping ABET PO 6 to CO1 (I), CO2 (E), and CO3 (D), with all nine Foundational (ILO1), Mediating (ILO2), and Ultimate (ILO3) statements."] },
-          { title: "CHED CMO No. 86, Series of 2017 & Syllabus Documentation", points: ["Policies, Standards and Guidelines (PSG) for Requirements Common to All BS Engineering and BET Programs (pursuant to RA 7722 and CMO 46 s. 2012).", "Connects policy compliance to authentic syllabus documentation and grading records."] },
-          { title: "Outcome-Based Course Syllabus: Key Reflection", points: ["How do we shift from a compliance-driven syllabus to a genuinely outcome-based learning blueprint?"] },
-          { title: "Non-Outcome-Based Habits of a Syllabus Developer", points: ["Listing topics first, scheduling lectures/exams, and inserting outcome statements afterward.", "Prioritizing a textbook's chapter order as the sole basis of lesson flow.", "Copying a standard syllabus from another school without contextualizing it."] },
-          { title: "Designing an Outcome-Based Syllabus: Steps 1 & 2", points: ["Step 1: Review the Program Outcome(s) in the curriculum.", "Step 2: Decide the course's specific role: [I] Introductory (foundational), [E] Enabling (applied/strengthening), or [D] Demonstrative (culminating competence)."] },
-          { title: "Designing an Outcome-Based Syllabus: Step 3", points: ["Step 3: Clearly articulate Course Outcomes (COs) using concrete, measurable verbs and performance qualifiers.", "Example (Research Methods [D]): 'Produce a publishable research output using appropriate research design based on the problem being investigated.'"] },
-          { title: "Designing an Outcome-Based Syllabus: Steps 4 & 5", points: ["Step 4: Sequence relevant learning experiences (TLAs) from Foundational -> Mediating -> Ultimate.", "Step 5: Develop Measurement Tools—formative checks for knowledge and summative tasks (evaluated via Outcome-Based Rubrics) for outcome attainment."] },
-          { title: "Designing an Outcome-Based Syllabus: Steps 6 & 7", points: ["Step 6: Review and refine Constructive Alignment across COs, ILOs, TLAs, and Assessments.", "Step 7: Include mandated institutional components (Course Details, Policies/Requirements, References & Materials)."] },
-          { title: "Reflection: The Essence of a Course", points: ["If you wanted someone to understand the essence of a course by reading just one part of the syllabus, which part should it be? — The Course Description."] },
-          { title: "Traditional vs. Outcome-Based Course Description", points: ["Traditional (Machine Design): Lists topics covered (shafts, bearings, gears, stress analysis, failure theories).", "Outcome-Based (Machine Design): Focuses on developing students' capability to analyze, design, evaluate, and justify mechanical assemblies meeting standards and constraints."] },
-          { title: "The 4 Elements of an Outcome-Based Course Description", points: ["COURSE DESCRIPTION = CONTENT + PURPOSE + CAPABILITY + CONTEXT.", "Content (What is it about?) · Purpose (Why does it matter?) · Capability (What will students do?) · Context (Where/how is it applied?)."] },
-          { title: "Anatomy of the Machine Design Course Description", points: ["Content: Machine elements, mechanical assemblies, mechanics, materials, failure analysis, safety, reliability.", "Purpose: Develops students' capability to address design requirements.", "Capability: Analyze, design, integrate, develop, evaluate, and justify design solutions.", "Context: Specified performance requirements, engineering standards, and relevant design constraints."] },
-          { title: "Annotated Machine Design Course Description", points: ["Demonstrates how Purpose, Capability, Content, and Context weave naturally into one coherent paragraph.", "Note: The four elements do not have to appear strictly in the order Content -> Purpose -> Capability -> Context."] },
-          { title: "Reviewing a Course Description: 4-Point Checklist", points: ["1. Can I clearly tell what this course is about? (Content)", "2. Can I tell why the course matters in the Engineering program? (Purpose)", "3. Can I tell what capability students are being prepared to develop? (Capability)", "4. Can I tell where or how that capability becomes meaningful? (Context)"] }
+          { title: "Recap: Fundamentals of OBE & PQF", points: ["Revisiting the core foundations of Outcome-Based Education (OBE) and the Philippine Qualifications Framework (PQF)."] },
+          { title: "Revisiting Outcome-Based Education (Spady, 1994)", points: ["Clearly focusing and organizing everything around what is essential for all students to be able to DO successfully.", "Outcomes are multidimensional: Content -> Competence -> Context (Real Life!).", "Operating Principles: Clarity of Focus, High Expectation, Expanded Opportunity, Design Down."] },
+          { title: "The Futures (Proximal & Distal) in Curriculum Outcomes", points: ["ILO (At the end of Lesson/Topic) -> CO (At the end of Course/Semester) -> PO / PQF Level 6–8 (Upon Graduation) -> PEO (3–5 years after Graduation & Beyond)."] },
+          { title: "Program Outcomes (PO1–PO11 Washington Accord)", points: ["PO1–PO4 (Knowledge & Problem Solving): Fundamentals, analysis, design, and investigation.", "PO5–PO7 (Tools, Context & Ethics): Modern tools, societal/environmental impacts, and ethics.", "PO8–PO11 (Collaboration, Management & Growth): Teamwork, communication, management, and lifelong learning."] },
+          { title: "PO1 Engineering Knowledge: Assessable & Context-Relevant", points: ["Apply knowledge of mathematics, natural science, computing, and engineering fundamentals to complex engineering problems.", "Outcomes are meant to be demonstrated, directly measurable, and discipline/program-specific."] },
+          { title: "Architecture of Outcomes: PO1 -> PI -> PLO (BS ME)", points: ["PO1: Apply math, science, and engineering fundamentals.", "PI 1.1–1.3: Observable dimensions of competent performance.", "PLO1 (BS Mechanical Engineering): Analyze and solve complex problems involving mechanical, thermal, energy, and manufacturing systems."] },
+          { title: "Architecture of Outcomes: PO2 -> PI -> PLO (BS ME)", points: ["PO2: Identify, formulate, review research literature, and analyze complex engineering problems.", "PI 2.1–2.3: Formulate requirements/constraints, analyze using principles, and justify conclusions.", "PLO2 (BS ME): Analyze complex mechanical problems with interacting requirements, constraints, and uncertainties."] },
+          { title: "Curriculum-Level vs. Course-Level Alignment", points: ["Curriculum Level: PO -> PI -> PLO.", "Course/Instructional Level: CO (At the end of the course) -> ILO1 (Foundational), ILO2 (Mediating), ILO3 (Culminating)."] },
+          { title: "Outcomes Across the Curriculum at Various Levels", points: ["Integrated progression: PQF -> PEO -> PO -> PI -> PLO -> CO -> ILO1 -> ILO2 -> ILO3."] },
+          { title: "Nuts & Bolts of OBE: Course-Level Implementation", points: ["Guided by CHED Principles: Clarity of Focus, High Expectation, Expanded Opportunity, Design-Down.", "Links Course Outcomes -> ILOs (Foundational, Mediating, Culminating) -> TLAs -> Assessment."] },
+          { title: "Outcome-Based Course Syllabus Flow", points: ["PEO -> PO -> Course Outcomes (Target Competencies) -> Teaching & Learning Activities (Learning Experience) -> Assessment (Evidence of Outcomes Attainment)."] },
+          { title: "Outcomes Assessment Logic", points: ["Lesson Level: ILO1, ILO2, ILO3 assessed via Formative Assessments.", "Course Level: Course Outcomes (CO) assessed via Summative Assessment.", "Rule: All assessments must produce tangible artifacts (outputs)."] },
+          { title: "How Do We Grade Outcomes?", points: ["Action Verb -> Gradable Tangible Output (Task) -> Quality of Demonstration (evaluated via Rubric) -> Quantitative Equivalence (Scores/Points)."] },
+          { title: "Sample Unit Alignment: Research Proposal (Introduction)", points: ["CO1: Discuss phenomenon, problem, and knowledge gaps.", "ILO1 (Foundational): Fundamentals -> Objective quiz. ILO2 (Mediating): Literature gaps -> Synthesis task. ILO3 (Culminating): State problem & hypothesis -> Summative Research Proposal Introduction."] },
+          { title: "Articulation of Outcomes", points: ["Stem: 'At the end of the Program / Course / Module / Lesson, students are expected to...'"] },
+          { title: "S.M.A.R.T. Rules of Thumb in Articulating Outcomes", points: ["S: Start with a VERB.", "M: Make sure the VERB is Measurable.", "A: Always consider the VERB's Attainability.", "R: Raise the expectation.", "T: Trace the links (Alignments: Higher to Lower Level Outcomes)."] },
+          { title: "Rule S: Start with a VERB", points: ["Link Content, Competence, and Context through clear action verbs.", "Example progression: CO1 Discuss... -> CO2 Analyze... -> CO3 Produce..."] },
+          { title: "Rule M: Make Sure the VERB Is Objectively Measurable", points: ["Use observable verbs: Discuss, Analyze, Produce.", "Avoid vague/unmeasurable verbs: Understand, Appreciate, Display, Embrace, Uphold."] },
+          { title: "Rule A: Always Consider the VERB's Attainability", points: ["Evaluate feasibility based on: The Outcome itself, Surrounding Contexts, Opportunities Provided, and Support Resources/Program."] },
+          { title: "Rule R: Raise the Expectation (Bloom's Taxonomy)", points: ["Progress from lower-order (Remember, Understand, Apply) toward higher-order thinking (Analyze, Evaluate, Create).", "Example Research Course: CO1 Discuss -> CO2 Analyze -> CO3 Produce."] },
+          { title: "Rule T: Trace the Links (Design-Down Alignment)", points: ["Design-Down from 1st (Ultimate/Demonstrating) -> 2nd (Mediating/Enabling) -> 3rd (Foundational/Introducing).", "Ensure both Vertical Articulation (across COs) and Horizontal Articulation (across ILO1, ILO2, ILO3)."] },
+          { title: "Summary: S.M.A.R.T. Rules of Thumb", points: ["Start with a VERB | Measurable | Attainable | Raise expectation | Trace the links."] },
+          { title: "Workshop (Part 1): Outcomes Articulation Matrix", points: ["Choose a course and state at least 3 Course Outcomes (I, E, D) using S.M.A.R.T. rules.", "Columns: Levels of Outcomes | Course Outcomes | ILO1 Content Mastery (I) | ILO2 Competency Building (E) | ILO3 Contextual Applications (D) | Tangible Output."] },
+          { title: "Sample Output: Engineering Research Course Matrix", points: ["CO1 (I): Propose a research topic -> Output: Presentation of Research Proposal.", "CO2 (E): Conduct experimental research -> Output: Full Experimental Report.", "CO3 (D): Write and present manuscript -> Output: Completed Manuscript & Paper Presentation."] },
+          { title: "ABET Student Outcomes (1–7)", points: ["1. Complex problem solving | 2. Engineering design | 3. Effective communication | 4. Ethics & societal context | 5. Teamwork & leadership | 6. Experimentation & data analysis | 7. New knowledge acquisition."] },
+          { title: "Granularization of Outcomes (ABET PO/SO No. 6)", points: ["Deconstructing ABET SO 6 ('Develop and conduct experimentation, analyze/interpret data, draw conclusions') into CO1 (Propose), CO2 (Conduct), and CO3 (Write & Present), each with ILO1–ILO3."] },
+          { title: "Granularization & Design-Down Framework", points: ["Design-Down: Systematically breaking down higher outcomes (PEOs/POs) into discrete Course Outcomes (I, E, D) and ILOs (Foundational + Mediating + Ultimate) prior to forward implementation."] },
+          { title: "ABET Student Outcome 3 Focus", points: ["SO 3: Communicate effectively with a range of audiences."] },
+          { title: "Granularization Framework: Backward Design vs. Forward Implementation", points: ["Designing Backward: 1. Program Outcome -> 2. Course Outcomes -> 3. Intended Learning Outcomes.", "Implementing Forward: 1. ILOs (Lesson) -> 2. COs (Semester) -> 3. POs (Graduation) -> Life Performance Roles."] },
+          { title: "Granularization Example 1: Communication 101", points: ["PO 3 (Communicate effectively) -> CO1 (Compose...) -> Lesson ILOs: 1. Determine grammatical errors, 2. Evaluate errors in passages, 3. Apply grammatical rules in writing outputs."] },
+          { title: "ABET Student Outcome 6 Focus", points: ["SO 6: Develop and conduct appropriate experimentation, analyze and interpret data, and use engineering judgment to draw conclusions."] },
+          { title: "Granularization Example 2: Engineering Research", points: ["PO 6 -> CO1 (Propose a research topic) -> Lesson ILOs: 1. Identify research types, 2. Establish research gaps, 3. Defend a research concept."] },
+          { title: "Complete Granularization Table: Research 101", points: ["Full alignment of PO 6 across CO1 (I), CO2 (E), and CO3 (D) with Foundational (ILO1), Mediating (ILO2), and Ultimate (ILO3) statements."] },
+          { title: "CHED CMO No. 86, s. 2017 & Syllabus Documentation", points: ["Policies, Standards and Guidelines for requirements common to all BS in Engineering and BET programs.", "Connects national QA policies (CMO 46, s. 2012) to course syllabus design and assessment records."] },
+          { title: "Rethinking the Outcome-Based Course Syllabus", points: ["Moving from compliance checklists to a coherent instructional blueprint."] },
+          { title: "Non-Outcome-Based Habits of a Syllabus Developer", points: ["Listing topics first and inserting outcome statements afterward.", "Relying strictly on a textbook table of contents for lesson flow.", "Copying a standard syllabus from another institution without contextualizing."] },
+          { title: "Designing an Outcome-Based Syllabus: Steps 1 & 2", points: ["Step 1: Review the Program Outcome(s) in the curriculum.", "Step 2: Decide the course's role — [I] Introductory, [E] Enabling, or [D] Demonstrative."] },
+          { title: "Designing an Outcome-Based Syllabus: Step 3", points: ["Step 3: Clearly articulate Course Outcomes (COs) using concrete, measurable verbs.", "Example (Research Methods [D]): Produce a publishable research output using appropriate research design."] },
+          { title: "Designing an Outcome-Based Syllabus: Steps 4 & 5", points: ["Step 4: Sequence relevant TLAs (Foundational -> Mediating -> Ultimate).", "Step 5: Develop formative and summative measurement tools, especially Outcome-Based Rubrics."] },
+          { title: "Designing an Outcome-Based Syllabus: Steps 6 & 7", points: ["Step 6: Review and refine Constructive Alignment.", "Step 7: Include mandated institutional components (Course Details, Policies, References)."] },
+          { title: "Reflection Question: The Essence of a Course", points: ["If you wanted someone to understand the essence of a course by reading just one part of the syllabus, which part should it be?"] },
+          { title: "Traditional vs. Outcome-Based Course Description", points: ["Traditional (Machine Design): Lists topics covered (shafts, bearings, gears, stress analysis).", "Outcome-Based (Machine Design): Articulates students' capability to analyze, design, evaluate, and justify solutions meeting standards and constraints."] },
+          { title: "Four Elements of an Outcome-Based Course Description", points: ["COURSE DESCRIPTION = CONTENT + PURPOSE + CAPABILITY + CONTEXT.", "Content (what it's about) | Purpose (why it matters) | Capability (what students can do) | Context (where/how it is applied)."] },
+          { title: "Anatomy of the Machine Design Course Description", points: ["Content: machine elements, mechanics, materials, failure analysis, safety, reliability.", "Purpose: develops students' capability to address design requirements.", "Capability: analyze, design, integrate, develop, evaluate, justify.", "Context: specified performance requirements, engineering standards, and design constraints."] },
+          { title: "Annotated Machine Design Course Description", points: ["Shows how Purpose, Capability, Content, and Context weave naturally into a coherent paragraph.", "Note: The four elements do not have to appear strictly in the order Content -> Purpose -> Capability -> Context."] },
+          { title: "Reviewing a Course Description: 4-Point Checklist", points: ["1. Can I clearly tell what this course is about? (Content)", "2. Can I tell why the course matters in the program? (Purpose)", "3. Can I tell what capability students develop? (Capability)", "4. Can I tell where or how that capability becomes meaningful? (Context)"] }
         ]
       }
     };
 
     // ==========================================
-    // TWO-DAY PROGRAM SCHEDULE DATA
+    // 2-DAY WORKSHOP SCHEDULE DATA
     // ==========================================
     const scheduleData = {
       day1: {
@@ -430,7 +429,8 @@
             iconBg: "bg-blue-50 text-blue-600",
             deckKey: "day2_am",
             slideCount: 50,
-            hasWorkshop2ATemplates: true
+            hasWorkshop2ATemplates: true,
+            workshop2ASubmitUrl: WORKSHOP2A_SUBMIT_URL
           },
           {
             time: "12:00 – 1:00",
@@ -470,7 +470,7 @@
     };
 
     // ==========================================
-    // NAVIGATION & RENDERING
+    // DAY SWITCHER & RENDERING
     // ==========================================
     function switchDay(day) {
       currentDay = day;
@@ -557,8 +557,15 @@
           </div>`;
       }
 
-      // Day 2 Workshop 2A Fillable Word (.doc) Templates
+      // Day 2 Workshop 2A Fillable Word (.doc) Templates & Submission Button
       if (s.hasWorkshop2ATemplates) {
+        const w2aSubmitBtn = s.workshop2ASubmitUrl
+          ? `<a href="${s.workshop2ASubmitUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold shadow-sm transition">
+               <i class="fa-solid fa-cloud-arrow-up"></i> Submit Workshop 2A Output
+               <i class="fa-solid fa-arrow-up-right-from-square text-[11px] opacity-80"></i>
+             </a>`
+          : "";
+
         actionsHtml += `
           <div class="mt-4 pt-4 border-t border-slate-100 space-y-2.5 no-print">
             <div class="flex flex-wrap items-center gap-2.5">
@@ -566,6 +573,7 @@
                 <i class="fa-solid fa-file-word"></i> Download Workshop 2A Template (.doc)
                 <span class="px-1.5 py-0.5 rounded bg-blue-800/60 text-[11px] font-normal">Complete</span>
               </button>
+              ${w2aSubmitBtn}
             </div>
             <div class="flex flex-wrap items-center gap-2 text-xs">
               <span class="text-slate-500 font-medium">Or download by part:</span>
